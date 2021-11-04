@@ -34,7 +34,7 @@ namespace Chaser.Program
             //g.AddPlayer(new RandomEnemy());
             //g.AddPlayer(new FollowerEnemy());
             //g.AddPlayer(new UserPlayer());
-            LoadDll(g);
+            LoadDll(g); 
             while (true)
             {
                 g.OneTick();
