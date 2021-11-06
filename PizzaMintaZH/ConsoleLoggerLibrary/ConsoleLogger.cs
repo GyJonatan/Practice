@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ConsoleLoggerLibrary
 {
@@ -9,13 +10,22 @@ namespace ConsoleLoggerLibrary
      amely egy object típust fogad. Az object-et írja ki a konzolra, a ToString metódus segítségével.
      Társítsa hozzá a másik (lentebbi következő) projekthez.
      */
-    public class ConsoleLogger
+    public static class ConsoleLogger
     {
         public static void ConsoleLog(object obj)
         {
             Console.WriteLine(obj.ToString());
         }
+        public static void ToConsole<T>(this IEnumerable<T> input, string header)
+        {
+            Console.WriteLine($"*****{header}*****");
+            foreach (var item in input)
+            {
+                Console.WriteLine(item.ToString());
+            }
+            Console.WriteLine($"*****{header}*****");
+            Console.ReadLine();
+        }
 
-        
     }
 }

@@ -6,6 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="pizza-database.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="pizza-database.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ConsoleLoggerLibrary\ConsoleLoggerLibrary.csproj" />
   </ItemGroup>
 
