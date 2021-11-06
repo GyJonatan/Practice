@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace PizzaMintaZH
 {
@@ -22,7 +25,25 @@ namespace PizzaMintaZH
     {
         public static void DetectPizzaClasses()
         {
+            var q = Assembly.GetExecutingAssembly()
+                    .GetTypes()
+                    .Where(x => x.GetInterface(nameof(IPizza)) != null)
+                    .OrderByDescending(x => x.FullName)
+                    .ToArray();
 
+            XDocument doc = new XDocument();
+            doc.Add(new XElement("pizza",
+                    new XAttribute("count", q.Length)));
+
+            foreach (var item in q)
+            {
+                doc.Add(new XElement(new XElement("class",
+                                        new XElement("name", item.Name),
+                                        new XElement("hashCode", item.GetHashCode()))));
+            }
+
+            doc.Save("pizzaClasses.xml");
+            
         }
     }
 }
