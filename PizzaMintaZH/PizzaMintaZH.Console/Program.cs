@@ -172,17 +172,111 @@ namespace PizzaMintaZH
 
             //Ha ezt olvasod megnyerted magadnak a jogot, hogy megcsináld a 6.7-et :)
 
+            //6.7.1. módosítsa úgy az xml elemeit, hogy ahol "cm" attribútum érték található,
+            //ott írja ki helyette (a fájlban), hogy "centimetres"
+
+
+
+
             //6.8. határozza meg, hogy az egyes méretekből típusonként hány darab található
 
             //var q8 = doc.Descendants("Pizza")
             //            .GroupBy(x => x.Element("Type"))
             //            .Select(x => x.Elements("Size"))
-            //            .Distinct()
             //            .Count();
+
+            //var q8b = from x in doc.Descendants("Pizza")
+            //          group x by x.Element("Type") into g
+            //          let t = g.Key
+            //          group g by g.Elements("Size") into grp
+            //          select new
+            //          {
+            //              Size = grp.Key,
+            //              Type = grp.Count()
+            //          };
+
+            //var q8c = from x in doc.Descendants("Pizza")
+            //          group x by x.Element("Size") into g
+            //          let count = g.Elements("Type")
+            //          select new { };
+
+            //var q8d =
+            //doc.Descendants("Pizza").GroupBy(pizzas => pizzas.Element("Type"),
+            //(type, elements) =>
+            //new
+            //{
+            //    Type = type,
+            //    Size = elements.GroupBy(pizzas => pizzas.Element("Size"),
+            //                            (size, amount) =>
+            //                            new
+            //                            {
+            //                                Name = size,
+            //                                Count = amount.Count()
+            //                            })
+            //});
+            //Console.WriteLine("Q8");
+            //foreach (var data in q8d)
+            //{
+            //    Console.WriteLine(data.Type.Value);
+
+            //    foreach (var element in data.Size)
+            //        Console.Write("  " + element.Name.Value + " = " + element.Count + "\n");
+            //}
+            //Console.WriteLine("Q8");
+
+
+
+
+            //var q8a = from x in doc.Descendants("Pizza")
+            //          group x by x.Element("Type") into g
+            //          select new { Type = g.Key, Size = g.Elements("Size") };
+
+
+
+
+            //Console.WriteLine($"*****Q8*****");
+            //foreach (var type in q8a)
+            //{
+            //    Console.WriteLine("Type: " + type.Type);
+            //    foreach (var size in q8a.GroupBy(x => x.Size))
+            //    {
+            //        Console.WriteLine($"Size: {size.Key}, Count: {size.Count()}");
+            //    }
+            //}
+            //Console.WriteLine($"*****Q8*****");
+
+            var q8 = from x in doc.Descendants("Pizza")
+                     group x by x.Element("Type").Value into g
+                     from y in (from x in g
+                                group x by x.Element("Size").Value)
+                     group y by g.Key;
+
+            foreach (var outerGroup in q8)
+            {
+                Console.Write($"Type = {outerGroup.Key}\n");
+                foreach (var innerGroup in outerGroup)
+                {
+                    Console.Write($"\t{innerGroup.Key}");
+
+                    int counter = 0;
+                    foreach (var innerGroupElement in innerGroup)
+                    {
+                        counter++;
+                    }
+                    Console.Write($"\tCount: {counter}\n");
+                }
+            }
+
+
+
+            
+
+            //q8d.ToConsole("Q8");
+
             //foreach (var item in doc.Descendants("Pizza")
             //            .GroupBy(x => x.Element("Type")))
             //{
-                
+
             //    Console.WriteLine(item.Key
             //    + ": " + item.Select(x => x.Elements("Size"))
             //                 .Distinct()
